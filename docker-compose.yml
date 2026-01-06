@@ -1,0 +1,23 @@
+services:
+  app:
+    user: root
+    build:
+      context: .
+    stdin_open: true
+    tty: true
+    # env_file: .env
+    volumes:
+      - ~/.git:/root/.git/
+      # share the code for local development
+      - ./:/app/:cached
+      - ~/.bash_history:/root/.bash_history
+      - ~/.pry_history:/root/.pry_history
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres

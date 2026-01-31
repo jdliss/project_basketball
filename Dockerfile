@@ -16,3 +16,4 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/* /usr/local/bundle/cache/* /usr/local/n/versions/* /tmp/*
 
 COPY . /app
+WORKDIR /app

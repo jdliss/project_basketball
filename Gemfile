@@ -17,4 +17,5 @@ group :development, :test do
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
   gem 'rspec-rails'
   gem 'open-uri'
+  gem 'pry'
 end

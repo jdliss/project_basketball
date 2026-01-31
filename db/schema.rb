@@ -10,40 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_11_232945) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_07_205048) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "games", force: :cascade do |t|
-    t.string "game_id"
-    t.integer "score"
-    t.boolean "overtime"
-    t.boolean "win"
-    t.datetime "date"
-    t.bigint "team_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_games_on_team_id"
-  end
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "seasons", force: :cascade do |t|
-    t.string "season_id"
-    t.string "name"
     t.datetime "created_at", null: false
+    t.string "display_name"
     t.datetime "updated_at", null: false
+    t.integer "year"
+    t.index ["year"], name: "index_seasons_on_year", unique: true
   end
 
-  create_table "teams", force: :cascade do |t|
-    t.string "team_id"
-    t.string "name"
-    t.string "abbrev"
-    t.boolean "active"
+  create_table "sub_seasons", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "end_date"
     t.bigint "season_id", null: false
-    t.datetime "created_at", null: false
+    t.date "start_date"
+    t.string "subtype"
     t.datetime "updated_at", null: false
-    t.index ["season_id"], name: "index_teams_on_season_id"
+    t.integer "year"
+    t.index ["season_id"], name: "index_sub_seasons_on_season_id"
+    t.index ["year", "subtype"], name: "index_sub_seasons_on_year_and_subtype", unique: true
   end
 
-  add_foreign_key "games", "teams"
-  add_foreign_key "teams", "seasons"
+  add_foreign_key "sub_seasons", "seasons"
 end
